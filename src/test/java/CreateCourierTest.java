@@ -7,8 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
-import static org.hamcrest.core.IsEqual.equalTo;
+
+import static org.apache.http.HttpStatus.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.equalTo;
 
 @DisplayName("Тесты на создание курьера")
 public class CreateCourierTest {
@@ -28,7 +30,7 @@ public class CreateCourierTest {
 
         ValidatableResponse response = courierSteps.createCourier(Courier.getRandomCourier());
 
-        response.assertThat().body("ok",is(true)).and().statusCode(201);
+        response.assertThat().body("ok",is(true)).and().statusCode(SC_CREATED);
     }
 
     @Test
@@ -41,7 +43,7 @@ public class CreateCourierTest {
 
         ValidatableResponse response = courierSteps.createCourier(courier);
 
-        response.assertThat().body("ok",is(true)).and().statusCode(201);
+        response.assertThat().body("ok",is(true)).and().statusCode(SC_CREATED);
     }
 
     @Test
@@ -53,7 +55,7 @@ public class CreateCourierTest {
 
         ValidatableResponse response = courierSteps.createCourier(courier);
 
-        response.assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи")).and().statusCode(400);
+        response.assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи")).and().statusCode(SC_BAD_REQUEST);
     }
 
     @Test
@@ -65,7 +67,7 @@ public class CreateCourierTest {
 
         ValidatableResponse response = courierSteps.createCourier(courier);
 
-        response.assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи")).and().statusCode(400);
+        response.assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи")).and().statusCode(SC_BAD_REQUEST);
     }
 
     @Test
@@ -76,7 +78,7 @@ public class CreateCourierTest {
 
         ValidatableResponse response = courierSteps.createCourier(Courier.getRandomCourier());
 
-        response.assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой.")).and().statusCode(409);
+        response.assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой.")).and().statusCode(SC_CONFLICT);
 
     }
 

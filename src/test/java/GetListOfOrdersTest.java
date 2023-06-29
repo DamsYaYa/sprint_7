@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 
 import static java.util.function.Predicate.not;
-import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.emptyArray;
 
 @DisplayName("Тесты на получение списка заказов")

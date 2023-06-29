@@ -1,5 +1,6 @@
 import Steps.CourierSteps;
 import Courier.Courier;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.RestAssured;
 import org.junit.After;
 import org.junit.Before;
@@ -7,9 +8,10 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 import static org.hamcrest.Matchers.greaterThan;
-import static org.apache.http.HttpStatus;
+import static org.apache.http.HttpStatus.*;
 
 @DisplayName("Позитивные тест на логин")
+
 public class LoginTest {
 
     static CourierSteps courierSteps = new CourierSteps();

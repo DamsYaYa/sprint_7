@@ -1,9 +1,9 @@
 package Steps;
 
+import io.qameta.allure.Step;
 import Courier.Courier;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
-
 
 import static Constant.Constant.COURIER_LOGIN_PATH;
 import static Constant.Constant.COURIER_PATH;
