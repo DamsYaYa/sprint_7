@@ -1,13 +1,13 @@
-import Steps.CourierSteps;
-import Courier.Courier;
+import steps.CourierSteps;
+import courier.Courier;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
+import io.qameta.allure.junit4.DisplayName;
 
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.*;
 
 @DisplayName("Негативные тесты на логин")
 public class LoginFailedTest {

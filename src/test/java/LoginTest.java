@@ -1,11 +1,11 @@
-import Steps.CourierSteps;
-import Courier.Courier;
+import steps.CourierSteps;
+import courier.Courier;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.RestAssured;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
+import io.qameta.allure.junit4.DisplayName;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.apache.http.HttpStatus.*;
@@ -28,7 +28,7 @@ public class LoginTest {
 
         ValidatableResponse response = courierSteps.loginWithCourier(Courier.getRandomCourier());
 
-        response.assertThat().body("id", greaterThan(0)).and().statusCode(SC_CREATED);
+        response.assertThat().body("id", greaterThan(0)).and().statusCode(SC_OK);
     }
 
     @After

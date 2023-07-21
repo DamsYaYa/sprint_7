@@ -1,4 +1,4 @@
-package Constant;
+package constant;
 
 public class Constant {
     public static final String COURIER_PATH = "/api/v1/courier";

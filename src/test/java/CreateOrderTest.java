@@ -1,18 +1,17 @@
-import Steps.OrderSteps;
-import Order.Order;
+import steps.OrderSteps;
+import order.Order;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.List;
 
 import static org.hamcrest.Matchers.greaterThan;
-
 
 @RunWith(Parameterized.class)
 @DisplayName("Тесты на создание заказа")
