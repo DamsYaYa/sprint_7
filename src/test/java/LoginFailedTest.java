@@ -1,3 +1,4 @@
+import io.qameta.allure.Description;
 import steps.CourierSteps;
 import courier.Courier;
 import io.restassured.RestAssured;
@@ -7,46 +8,79 @@ import org.junit.Test;
 import io.qameta.allure.junit4.DisplayName;
 
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.apache.http.HttpStatus.*;
 
 @DisplayName("Негативные тесты на логин")
+
 public class LoginFailedTest {
-    Courier courier;
-    static CourierSteps courierSteps = new CourierSteps();
+    private Courier courier;
+    private CourierSteps courierSteps;
+    private int courierId;
 
     @Before
     public void setUp() {
         RestAssured.baseURI= "https://qa-scooter.praktikum-services.ru";
+        courier = Courier.getRandomCourier();
+        courierSteps = new CourierSteps();
+        courierSteps.createCourier(courier);
     }
+
     @Test
     @DisplayName("Авторизация с  несуществующим логином")
+    @Description("Базовый тест с запросом к /api/v1/courier/login")
     public void testErrorMessageForIncorrectLogin() {
-        courier.setLogin("vader");
-        ValidatableResponse response = courierSteps.loginWithCourier(courier);
-        response.assertThat().body("message", equalTo("Учетная запись не найдена")).and().statusCode(SC_NOT_FOUND);
+        ValidatableResponse loginResponse = courierSteps.loginWithCourier(new Courier("labla", courier.getPassword()));
+        courierId = courierSteps.loginWithCourier(Courier.from(courier)).extract().path("id");
+
+        int statusCode = loginResponse.extract().statusCode();
+        assertEquals(SC_NOT_FOUND, statusCode);
+
+        String bodyAnswer = loginResponse.extract().path("message");
+        assertEquals("Учетная запись не найдена", bodyAnswer);
     }
 
     @Test
     @DisplayName("Авторизация с пустым логином")
-    public void testErrorMessageForNotFoundLogin() {
-        courier.setLogin(null);
-        ValidatableResponse response = courierSteps.loginWithCourier(courier);
-        response.assertThat().body("message", equalTo("Недостаточно данных для входа")).and().statusCode(SC_NOT_FOUND);
+    @Description("Базовый тест с запросом к /api/v1/courier/login")
+    public void courierEmptyLoginTest() {
+        ValidatableResponse loginResponse = courierSteps.loginWithCourier(new Courier(null, courier.getPassword()));
+        courierId = courierSteps.loginWithCourier(Courier.from(courier)).extract().path("id");
+
+        int statusCode = loginResponse.extract().statusCode();
+        assertEquals(SC_BAD_REQUEST, statusCode);
+
+        String bodyAnswer = loginResponse.extract().path("message");
+        assertEquals("Недостаточно данных для входа", bodyAnswer);
     }
 
+
     @Test
-    @DisplayName("Авторизация с неверным паролем")
+    @DisplayName("Авторизация с  несуществующим паролем")
+    @Description("Базовый тест с запросом к /api/v1/courier/password")
     public void testErrorMessageForIncorrectPassword() {
-        courier.setPassword("hghf");
-        ValidatableResponse response = courierSteps.loginWithCourier(courier);
-        response.assertThat().body("message", equalTo("Учетная запись не найдена")).and().statusCode(SC_NOT_FOUND);
+        ValidatableResponse loginResponse = courierSteps.loginWithCourier(new Courier(courier.getLogin(), "qwerty"));
+        courierId = courierSteps.loginWithCourier(Courier.from(courier)).extract().path("id");
+
+        int statusCode = loginResponse.extract().statusCode();
+        assertEquals(SC_NOT_FOUND, statusCode);
+
+        String bodyAnswer = loginResponse.extract().path("message");
+        assertEquals("Учетная запись не найдена", bodyAnswer);
     }
 
+
     @Test
-    @DisplayName("Авторизация с пустым паролем")
-    public void testErrorMessageForNotFoundPassword() {
-        courier.setPassword("");
-        ValidatableResponse response = courierSteps.loginWithCourier(courier);
-        response.assertThat().body("message", equalTo("Недостаточно данных для входа")).and().statusCode(SC_NOT_FOUND);
+    @DisplayName("Авторизация несуществующего курьера")
+    @Description("Базовый тест с запросом к /api/v1/courier/login")
+    public void testErrorMessageForEmptyPassword() {
+        ValidatableResponse loginResponse = courierSteps.loginWithCourier(new Courier("Creature", "Tupik"));
+        courierId = courierSteps.loginWithCourier(Courier.from(courier)).extract().path("id");
+
+        int statusCode = loginResponse.extract().statusCode();
+        assertEquals(SC_NOT_FOUND, statusCode);
+
+        String bodyAnswer = loginResponse.extract().path("message");
+        assertEquals("Учетная запись не найдена", bodyAnswer);
     }
 }

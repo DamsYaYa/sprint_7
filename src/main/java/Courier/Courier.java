@@ -28,6 +28,9 @@ public class Courier {
         return new Courier("Konohe" + timeMilli, "morty", "Saske");
     }
 
+    public static Courier from(Courier courier){
+        return new Courier(courier.getLogin(), courier.getPassword());
+    }
     public String getLogin() {
         return login;
     }
