@@ -1,4 +1,5 @@
 import io.qameta.allure.Description;
+import org.junit.After;
 import steps.CourierSteps;
 import courier.Courier;
 import io.restassured.RestAssured;
@@ -82,5 +83,10 @@ public class LoginFailedTest {
 
         String bodyAnswer = loginResponse.extract().path("message");
         assertEquals("Учетная запись не найдена", bodyAnswer);
+    }
+
+    @After
+    public void deleteCourier() {
+        CourierSteps.deleteCourier();
     }
 }
